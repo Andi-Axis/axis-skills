@@ -11,7 +11,7 @@ description: >
 
 # S1 — Domänenbeschreibung
 
-Vault-Pfad: `C:\Projekte\Axis\vault\`
+Vault-Pfad: `C:\AXIS\vault\`
 
 Zweck: Domänenanforderungen durch strukturierte Iteration mit dem KI-Key-User-Team ermitteln.
 Ergebnis: aktualisierte Vault-Dokumente — Modul-/Sub-Modul-Überdateien, GLOSSAR, ggf. ADRs.

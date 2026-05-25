@@ -2,7 +2,7 @@
 
 ## Verzeichnis
 
-`C:\Projekte\Axis\plans\`
+`C:\AXIS\plans\`
 
 Das Verzeichnis existiert noch nicht — wird bei Bedarf angelegt.
 

@@ -8,7 +8,7 @@ description: >
 
 # Capture-Skill
 
-Vault-Pfad: `C:\Projekte\Axis\vault\`
+Vault-Pfad: `C:\AXIS\vault\`
 
 Zweck: Session-Learnings komprimiert als RAW-File nach `_Wissen/Raw/` schreiben.
 Reifegrad `raw` — Rohdokumentation ohne Strukturzwang. Veredelung zu Wiki-Einträgen: Phase 2 (separater Skill).

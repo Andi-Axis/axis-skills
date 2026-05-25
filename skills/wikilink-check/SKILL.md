@@ -12,7 +12,7 @@ description: >
 
 # Wikilink-Check
 
-Vault-Pfad: `C:\Projekte\Axis\vault\`
+Vault-Pfad: `C:\AXIS\vault\`
 
 Gemeinsame Ressourcen: `references/vault-resources.md`
 

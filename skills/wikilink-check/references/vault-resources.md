@@ -4,8 +4,8 @@
 
 | Pfad | Zweck |
 |---|---|
-| `C:\Projekte\Axis\vault\` | Vault — alle Projektdokumente |
-| `C:\Projekte\Axis\plans\` | Plans — Implementierungspläne |
+| `C:\AXIS\vault\` | Vault — alle Projektdokumente |
+| `C:\AXIS\plans\` | Plans — Implementierungspläne |
 
 ---
 

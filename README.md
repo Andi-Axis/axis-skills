@@ -15,7 +15,7 @@ Plugin-Marketplace für das AXIS-Projekt — Claude-Code-Skills zur Vault- und D
 
 ```
 # Marketplace registrieren (Directory-Quelle)
-/plugin marketplace add C:\Projekte\Axis-skills
+/plugin marketplace add C:\AXIS\Axis-skills
 
 # Plugin installieren
 /plugin install axis-skills@axis-skills
