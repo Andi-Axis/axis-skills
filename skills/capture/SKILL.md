@@ -33,40 +33,11 @@ Skill analysiert Session-Verlauf vollständig. Keine Selektion — lieber zu vie
 
 ## Schritt 2 — File-Entwurf
 
-**Frontmatter:**
+Template: `_Vorlagen/Raw-Template.md`
 
-```yaml
-title: RAW — {Thema} — {YYYY-MM-DD}
-type: wissen
-domain: {betroffene Modul-Domäne gem. Rulebook §2}
-status: entwurf
-stand: {YYYY-MM-DD}
-reifegrad: raw
-strang: domaene
-wissenstyp: {korrektur | prozess | —}
-quelle: "Session {YYYY-MM-DD} — {Thema}"
-reviewed: false
-tags: [{modul-tag}, {sach-tag}]
-```
-
-`wissenstyp` optional in Raw — wenn eindeutig erkennbar setzen, sonst `—`. Phase 2 klassifiziert verbindlich.
-
-**Body:**
-
-```
-## Kontext
-Betroffene Module: {Wikilinks auf Modul-/Sub-Modul-Überdateien}
-Session-Trigger: {Ausgangsfrage oder -aufgabe der Session in einem Satz}
-
-## Erkenntnisse
-- {Erkenntnis — atomar, prüfbar}
-- wenn {Bedingung} → {Konsequenz}
-- Annahme: {was stand im Raum} → Realität: {wie es bei AXIS ist}
-- [weitere Punkte — kein Limit, lieber zu viel]
-
-## Offene Punkte
-- {Punkt der in Folge-Session oder Sprint-Backlog gehört}
-```
+Struktur nach Vorlage ausfüllen:
+- **Frontmatter:** title, type, domain, status, stand, reifegrad, strang, wissenstyp, quelle, reviewed, tags, summary
+- **Body:** TL;DR + Annahme/Realität/Grund (wissenstyp: korrektur) oder Inhalt/Bezug (wissenstyp: prozess)
 
 **Formulierungsregeln:** [[Rulebook_Obsidian]] §1 und §4 — kein Erklärtext, keine Prosa, jede Zeile trägt Information. Entscheidungspunkte als `wenn X → dann Y`.
 
