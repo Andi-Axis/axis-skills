@@ -1,11 +1,11 @@
 {
   "name": "axis-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "AXIS-Projekt Skills: Wikilink-Check, Domänenbeschreibung, Vault-Governance und Dokumentationspflege für die AXIS-ERP-Eigenentwicklung.",
   "author": {
     "name": "Andi-Axis"
   },
-  "homepage": "https://github.com/Andi-Axis/Axis-skills",
-  "repository": "https://github.com/Andi-Axis/Axis-skills",
+  "homepage": "https://github.com/Andi-Axis/axis-skills",
+  "repository": "https://github.com/Andi-Axis/axis-skills",
   "keywords": ["axis", "vault", "obsidian", "wikilink", "erp", "documentation"]
 }
