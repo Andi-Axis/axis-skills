@@ -1,6 +1,5 @@
 {
   "name": "axis-skills",
-  "version": "1.0.0",
   "description": "AXIS-Projekt Plugin-Marketplace — Skills und Tooling für die AXIS-ERP-Entwicklung.",
   "owner": {
     "name": "Andi-Axis",
@@ -9,8 +8,13 @@
   "plugins": [
     {
       "name": "axis-skills",
+      "description": "AXIS-Projekt Skills: Wikilink-Check, Domänenbeschreibung, Vault-Governance und Dokumentationspflege.",
       "version": "0.1.0",
-      "source": "."
+      "source": "./",
+      "author": {
+        "name": "Andi-Axis"
+      },
+      "keywords": ["axis", "vault", "obsidian", "wikilink", "erp", "documentation"]
     }
   ]
 }
