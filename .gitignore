@@ -1,0 +1,9 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Claude Code runtime
+.in_use/

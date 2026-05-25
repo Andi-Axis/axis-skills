@@ -1,0 +1,16 @@
+{
+  "name": "axis-skills",
+  "version": "1.0.0",
+  "description": "AXIS-Projekt Plugin-Marketplace — Skills und Tooling für die AXIS-ERP-Entwicklung.",
+  "owner": {
+    "name": "Andi-Axis",
+    "url": "https://github.com/Andi-Axis"
+  },
+  "plugins": [
+    {
+      "name": "axis-skills",
+      "version": "0.1.0",
+      "source": "."
+    }
+  ]
+}
