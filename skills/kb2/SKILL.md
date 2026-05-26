@@ -8,29 +8,28 @@ description: >
 
 # KB2 — Veredelungs-Skill (RAW → WIKI)
 
-Vault-Pfad: `C:\AXIS\vault\`
+> **Zweck:** RAWs mit `reviewed: false` in implementierungstaugliche WIKI-Einträge überführen. Form, Struktur, Detailtiefe, Deduplizierung. Kein inhaltlicher Vault-Abgleich — das ist KB3.
 
-Zweck: alle RAWs mit `reviewed: false` in strukturierte WIKI-Einträge überführen. Form, Struktur, Deduplizierung. Kein inhaltlicher Vault-Abgleich — das ist KB3.
-
-Konventionen: [[WIKI-Konventionen]]. Prüfraster-Definition: dort, Abschnitt „KB2-Prüfraster".
+Vault-Pfad: `C:\AXIS\vault\`  
+Konventionen: [[WIKI-Konventionen]] — insb. Abschnitt „KB2-Prüfraster".
 
 ---
 
 ## Schritt 1 — RAW-Discovery
 
-Alle Files in `_Wissen/Raw/` mit `reviewed: false` lesen. Nach `domain` gruppieren, innerhalb der Domain nach Tag-Schnittmenge clustern.
+1. Alle Files in `_Wissen/Raw/` mit `reviewed: false` lesen.
+2. Nach `domain` gruppieren, innerhalb der Domain nach Tag-Schnittmenge clustern.
+3. Solo-RAW = Cluster der Größe 1 — kein Zwang zur Gruppierung.
 
-Output: Liste der Cluster-Vorschläge — je Cluster: enthaltene RAWs, gemeinsame Tags, Wissenstyp-Vermutung (`korrektur` / `prozess`).
-
-Solo-RAW = Cluster der Größe 1. Kein Zwang zur Gruppierung.
+**Output:** Cluster-Liste — je Cluster: enthaltene RAWs · gemeinsame Tags · Wissenstyp-Vermutung (`korrektur` / `prozess`).
 
 ---
 
 ## Schritt 2 — Cluster-Freigabe
 
-Cluster-Vorschlag als Fließtext-Übersicht ausgeben. Nutzer bestätigt oder korrigiert Zuschnitt (RAW in anderes Cluster verschieben, Cluster splitten).
+Cluster-Vorschlag ausgeben. Nutzer bestätigt oder korrigiert (RAW verschieben, Cluster splitten).
 
-wenn Nutzer ablehnt → Skill beenden, nichts schreiben.
+wenn Nutzer ablehnt → Skill endet, keine Schreiboperationen.
 
 ---
 
@@ -38,29 +37,51 @@ wenn Nutzer ablehnt → Skill beenden, nichts schreiben.
 
 Fünf Achsen aus [[WIKI-Konventionen]] § KB2-Prüfraster:
 
-1. **Integrität** — Frontmatter-Pflichtfelder, Status-Kopplung, File-Naming, Mindest-Tags
-2. **Inhaltliche Vollständigkeit** — Tripel bzw. Inhalt/Bezug, TL;DR, summary, quelle
-3. **Ubiquitous-Language-Konformität** — alle Fachbegriffe im GLOSSAR
-4. **Domänen-/Tag-Plausibilität** — domain-Enum, Inhaltspassung, Modul-Tags
-5. **Redundanz / Anreicherung** — Treffer in [[WIKI-Index]] suchen → Anreicherung statt Neueintrag
+| Achse | Prüfgegenstand | Befund-Status |
+|---|---|---|
+| 1 Integrität | Frontmatter-Pflichtfelder, Status-Kopplung, File-Naming, Mindest-Tags | `ok` · `Hinweis` · `Block` |
+| 2 Vollständigkeit | Detailtiefe implementierungstauglich — siehe § Vollständigkeitsregel | `ok` · `Hinweis` · `Block` |
+| 3 Ubiquitous Language | Alle Fachbegriffe im GLOSSAR | `ok` · `Hinweis` · `Block` |
+| 4 Domänen-/Tag-Plausibilität | `domain`-Enum korrekt, Modul-Tags passend | `ok` · `Hinweis` · `Block` |
+| 5 Redundanz / Anreicherung | Treffer in [[WIKI-Index]] → Anreicherung statt Neueintrag | `ok` · `Hinweis` · `Block` |
 
-Befund-Status je Achse: `ok` · `Hinweis` · `Block`.
+**Block** → Cluster gestoppt. Nutzer korrigiert RAW oder überspringt Cluster.  
+**Hinweis** → erscheint im Bericht, Nutzer entscheidet.
 
-- **Block** → Cluster gestoppt. Nutzer korrigiert RAW oder skippt Cluster.
-- **Hinweis** → erscheint im Bericht, Nutzer entscheidet ob Ergänzung nötig.
+---
 
-**Achse 2 — Lücken-Modus:** Skill schlägt Ergänzung aus dem RAW-Body vor (Umformulierung des Vorhandenen). Keine Ergänzung aus Session-Kontext, kein Erfinden.
+## Vollständigkeitsregel (Achse 2)
 
-**Achse 3 — GLOSSAR-Lookup:** über [[GLOSSAR-Index]], nicht durch Vollladen von GLOSSAR.md. Fehlende Begriffe sammeln.
+**Testkriterium:** Kann ein Entwickler aus dem WIKI-Eintrag allein eine Datenstruktur, einen Prozessschritt oder eine Formblatt-Prüfung ableiten — ohne das RAW zu öffnen?
+
+wenn nein → `Block` mit Hinweis auf fehlende Detailtiefe.
+
+**Verboten:** Dokumentnamen als Wissensersatz.
+
+| ❌ Nicht gut | ✅ Gut |
+|---|---|
+| `FB-03: Herstellbarkeitsbewertung` (Listenzeile ohne Inhalt) | `FB-03-10 Herstellbarkeitsbewertung — 18 Prüffelder: Maße/Toleranzen, Materialspezifikationen, Oberflächenspez., Funktions-/Leistungsspez., Kapazitätsanforderungen, Messkonzept, Haptik/Optik, besondere Merkmale, Fähigkeitsanforderungen, gesetzliche Anforderungen, CSR, REACH, Kennzeichnung, Verpackung/Logistik, Rückverfolgbarkeit, Prüf-/Fertigungseinreichungen, Produktkenntnis (neu?), Prozesskenntnis (neu?). Ergebnis-Enum: herstellbar / bedingt herstellbar / nicht herstellbar. Unterschriften: Vertrieb, PL, QAP, Produktion, GF.` |
+| `Vorkalkulation ist Pflicht vor Projektgenehmigung` | `Vorkalkulation: Stundenaufstellung je Arbeitsbereich (CAD, CAM, AV/Zuschnitt, Fräsen, Drahtschneiden) + Fremdkosten + Zuschlagssatz. Ausgabe: Angebotspreis Min/Norm je Stück. Beispiel BR590: CAD 80h, CAM 95h, Norm-Preis 32.891 EUR.` |
+| `Stückliste enthält BG-Gruppen` | `Stücklistenstruktur: BG_Grundaufbau (Platten EN AW 5083) · BG_Anlagen_demontierbar (Anlagen 1–n, Material 1.2099 oder Obomodulan) · BG_Anlagen_TVKL · BG_Normteile (Bohrbuchsen, Auflagescheiben, DPS-Bauteile) · BG_Lehrenwagen · BG_Transportkiste. Teilenummer-Schema: AB{XXXXXX}_{Bauteilname}.` |
+| `Konstruktionsabnahme (Blatt 2)` (ohne Inhalt) | `Konstruktionsabnahme FB-11-21 Blatt 2: 4 Prüfbereiche — Rüsten/Teileentsorgung (6 Punkte), Werkzeugelemente (19 Punkte inkl. max. Federweg 70%, Führungssäulen-Entlüftung, Lochstempelauslegung), Arbeitsfolgen/Funktion (5 Punkte), Besonderheiten (4 Punkte).` |
+| `Ressourcen: Abteilungen als Planungsressourcen` | `Projektressourcen-Typen: Konstruktion, CAM-Programmierung, AV/Zuschnitt, 3-Achs Fräsen, 5-Achs Fräsen, Drahtschneiden, WZB. Zeitplanung je Arbeitsgang: tr (Rüstzeit) + te (Ausführungszeit) → Summe in Minuten/Stunden auf Arbeitskarte.` |
+
+**Wenn Achse 2 `Block` meldet:**
+1. Konkrete Lücke benennen: welche Felder / Strukturen / Werte fehlen im Entwurf.
+2. Entsprechende Stelle im RAW-Body zeigen (Zeilennummer oder Abschnittsname).
+3. Formulierungsvorschlag aus RAW-Inhalt erstellen — kein Erfinden, kein Session-Kontext.
 
 ---
 
 ## Schritt 4 — GLOSSAR-Patches
 
 wenn Achse 3 Lücken meldet:
-- Skill schlägt je fehlendem Begriff einen GLOSSAR-Eintrag vor (Term + Definition).
-- Nutzer geht Liste durch, entscheidet pro Begriff: übernehmen / verwerfen / umformulieren.
-- Skill schreibt freigegebene Patches ans **Ende** von `GLOSSAR.md` (nie alphabetisch einfügen — [[CLAUDE]]) und ergänzt `GLOSSAR-Index.md` (Term + Zeilennummer).
+1. Je fehlendem Begriff einen GLOSSAR-Eintrag vorschlagen (Term + Definition).
+2. Nutzer entscheidet pro Begriff: übernehmen / verwerfen / umformulieren.
+3. Freigegebene Patches ans **Ende** von `GLOSSAR.md` anhängen — nie alphabetisch einfügen.
+4. `GLOSSAR-Index.md` ergänzen: Term + neue Zeilennummer.
+
+Laderegel GLOSSAR: [[GLOSSAR-Index]] → Zeilennummer → `Read(GLOSSAR.md, offset=ZEILE, limit=22)`.
 
 ---
 
@@ -68,23 +89,33 @@ wenn Achse 3 Lücken meldet:
 
 Template: [[Wiki-Template]] aus `_Vorlagen/`.
 
-Pro Cluster ein WIKI-Entwurf:
-- File-Name: `WIKI-{thema}.md` (kein Datum — lebendes Dokument)
-- Frontmatter: `type: wissen`, `reifegrad: wiki`, `status: entwurf`, `wissenstyp` verbindlich, `quelle` listet alle Source-RAWs als Wikilinks, `tags` aus Cluster-Schnittmenge erweitert
-- Body: 
-  - `wissenstyp: korrektur` → Annahme / Realität / Grund / Konsequenz
-  - `wissenstyp: prozess` → Inhalt / Bezug
-- `## Widersprüche`-Abschnitt nur falls bereits im RAW markiert; KB2 erzeugt selbst keine.
+**Frontmatter:**
 
-**Anreicherung statt Neueintrag:** wenn Achse 5 Treffer in [[WIKI-Index]] liefert → Edit auf bestehendem WIKI: `quelle` erweitern, Body-Diff einarbeiten, `stand` aktualisieren.
+| Feld | Wert |
+|---|---|
+| `type` | `wissen` |
+| `reifegrad` | `wiki` |
+| `status` | `entwurf` |
+| `wissenstyp` | verbindlich aus RAW übernehmen |
+| `quelle` | alle Source-RAWs als Wikilinks |
+| `tags` | Cluster-Schnittmenge |
+
+**Body je `wissenstyp`:**
+
+- `korrektur` → `## Annahme` · `## Realität` · `## Grund` · `## Konsequenz`
+- `prozess` → `## Inhalt` · `## Bezug`
+
+**Inhalt-Pflicht bei `prozess`:** Prozessschritte mit Verantwortlichkeiten · Formblatt-Strukturen mit konkreten Prüfpunkten und Feldern · Kalkulationslogik mit Beispielwerten · Datenstrukturen ableitbar. Prüfkriterium: Vollständigkeitsregel (siehe oben).
+
+**`## Widersprüche`:** nur wenn bereits im RAW markiert — KB2 erzeugt keine eigenen Widersprüche.
+
+**Anreicherung statt Neueintrag:** wenn Achse 5 Treffer in [[WIKI-Index]] → Edit auf bestehendem WIKI: `quelle` erweitern, Body-Diff einarbeiten, `stand` aktualisieren.
 
 ---
 
 ## Schritt 6 — Vorschau & Freigabe
 
-Vollständiger WIKI-Entwurf (Frontmatter + Body) ausgeben. Bei Anreicherung: Diff gegen bestehendes WIKI.
-
-Nutzer korrigiert oder gibt frei.
+Vollständiger WIKI-Entwurf ausgeben (Frontmatter + Body). Bei Anreicherung: Diff gegen bestehendes WIKI.
 
 wenn Nutzer ablehnt → kein WIKI-File schreiben, kein RAW-Statuswechsel, Cluster überspringen.
 
@@ -92,27 +123,30 @@ wenn Nutzer ablehnt → kein WIKI-File schreiben, kein RAW-Statuswechsel, Cluste
 
 ## Schritt 7 — Schreiben & Statuswechsel
 
-Nach Freigabe:
+Nach Nutzer-Freigabe — in dieser Reihenfolge:
 
-1. **WIKI-File schreiben** — `_Wissen/Wiki/WIKI-{thema}.md` mit `reifegrad: approved`, `status: aktiv` (Nutzer-Freigabe ist gemäß [[WIKI-Konventionen]] das einzige Gate für diesen Übergang).
-2. **Source-RAWs** — je Datei: `reviewed: true`, `status: archiviert`. Inhalt bleibt unverändert (Audit-Spur).
-3. **[[WIKI-Index]] ergänzen** — neue Tabellenzeile im passenden `### {domain}`-Abschnitt nach Eintragsformat: `| [[WIKI-thema]] | wissenstyp | approved | tag1, tag2 |`. Abschnitt anlegen wenn noch nicht vorhanden.
+1. **WIKI-File schreiben** — `_Wissen/Wiki/WIKI-{thema}.md` mit `reifegrad: approved`, `status: aktiv`.
+2. **Source-RAWs** — je Datei: `reviewed: true`, `status: archiviert`. Inhalt unverändert (Audit-Spur).
+3. **[[WIKI-Index]] ergänzen** — neue Tabellenzeile im passenden `### {domain}`-Abschnitt: `| [[WIKI-thema]] | wissenstyp | approved | tag1, tag2 |`. Abschnitt anlegen wenn nicht vorhanden.
 
 ---
 
 ## Schritt 8 — Nächstes Cluster
 
-Iteration durch alle Cluster aus Schritt 1. Nach letztem Cluster: Skill endet mit Zusammenfassung (n WIKIs erstellt / m angereichert / k übersprungen).
+Iteration durch alle Cluster aus Schritt 1. Nach letztem Cluster: Zusammenfassung (n WIKIs erstellt / m angereichert / k übersprungen).
 
 ---
 
-## Was der Skill NICHT macht
+## Was der Skill nicht macht
 
-- **Kein Commit** — [[CLAUDE]]-Verbot. Commit erfolgt durch Cowork-Claude.
-- **Kein inhaltlicher Vault-Abgleich** — keine Prüfung gegen ADRs, Specs, Modul-Überdateien. Das ist KB3.
-- **Keine Widerspruchs-Auflösung** — KB3-Aufgabe.
-- **Kein Re-Capture** — fehlt Substanz in einem RAW, ist das Aufgabe von /capture, nicht /kb2.
-- **Kein Edit an freigegebenen WIKIs ohne Achse-5-Treffer** — nur via Anreicherungs-Pfad.
+| Nicht im Scope | Zuständig |
+|---|---|
+| Commit nach Schreiben | Cowork-Claude (manuell) |
+| Inhaltlicher Vault-Abgleich gegen ADRs, Specs | KB3 |
+| Widerspruchs-Auflösung | KB3 |
+| Substanz ergänzen die im RAW fehlt | /capture |
+| Edit an approved WIKIs ohne Achse-5-Treffer | — |
+| Dokumentnamen als Wissensersatz akzeptieren | verboten — Block auslösen |
 
 ---
 
@@ -122,11 +156,11 @@ Iteration durch alle Cluster aus Schritt 1. Nach letztem Cluster: Skill endet mi
 |---|---|
 | Kein Commit durch Skill | [[CLAUDE]] |
 | Keine stillen Annahmen | [[CLAUDE]] |
-| `GLOSSAR.md` nie direkt laden — immer über [[GLOSSAR-Index]] | [[CLAUDE]] |
-| GLOSSAR-Einträge ans Ende anhängen, nie alphabetisch einfügen | [[CLAUDE]] |
-| Dokumente mit `status: veraltet` nie laden | [[CLAUDE]] |
+| `GLOSSAR.md` nie direkt laden | [[CLAUDE]] |
+| GLOSSAR-Einträge ans Ende, nie alphabetisch | [[CLAUDE]] |
+| `status: veraltet` Dokumente nie laden | [[CLAUDE]] |
 | WIKI-File ohne vollständiges Frontmatter ungültig | [[Rulebook_Obsidian]] §2 |
 | WIKI-File ohne `quelle` ungültig | [[WIKI-Konventionen]] |
 | Provenance-Kette darf nicht abbrechen | [[WIKI-Konventionen]] |
-| Reifegrad/Status-Kopplung verbindlich (wiki/entwurf, approved/aktiv) | [[WIKI-Konventionen]] |
-| Konfliktprüfung gegen Vault-Regelwerk gehört zu KB3, nicht KB2 | Sprint-Entscheidung 2026-05-26 |
+| Reifegrad/Status-Kopplung verbindlich | [[WIKI-Konventionen]] |
+| KB3-Scope gehört nicht zu KB2 | Sprint-Entscheidung 2026-05-26 |
