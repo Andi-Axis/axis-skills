@@ -121,7 +121,7 @@ Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
 - Runde 2+: Lückensuche, Konflikt-Synthese, Optionsskizzen.
 - Mindestens 1 Runde · maximal 4 Runden je Sprint.
 - Nach 4 Runden ohne Einigung → Konflikt-Eskalation (Format: siehe Phase 3).
-- Nach Entscheidung (Phase 4): **retroaktive Konsistenzprüfung** — Hat die aktuelle Entscheidung Einfluss auf bereits abgeschlossene Topics? Falls ja → betroffene Topics explizit markieren und Anpassung vornehmen.
+- Nach Entscheidung (Phase 4): **retroaktive Konsistenzprüfung** — siehe Phase 3.
 - Sprint-Abschluss → nächstes Topic aus Queue.
 
 **Allgemeine Regeln:**
