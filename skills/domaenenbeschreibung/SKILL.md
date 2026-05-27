@@ -124,6 +124,14 @@ Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
 - Nach Entscheidung (Phase 4): **retroaktive Konsistenzprüfung** — siehe Phase 3.
 - Sprint-Abschluss → nächstes Topic aus Queue.
 
+**Sprint-K-Check (vor Sprint-Abschluss — Pflicht):**
+T1 prüft nach der letzten Runde. Fehlende Antwort → Nachfrage, Sprint bleibt offen:
+- K1/K8: Alle Zustände und Übergänge dieser Entität benannt? Oder explizit: keine Status-Entität?
+- K2: Entität klar von verwandten Domänen-Objekten abgegrenzt?
+- K3: Kein offener Blocker mit Datenmodell-Relevanz?
+- K6: Mindestens ein Ausnahmepfad identifiziert — oder explizit als keiner bestätigt?
+- K7: Alle Varianten und Pfade in Tabellenform — kein Fließtext?
+
 **Allgemeine Regeln:**
 - Topic = ein Punkt der eine Nutzer-Entscheidung erfordert.
 - Neuer Glossar-Begriff: Definition inline setzen, damit weiterarbeiten — GLOSSAR-Update in Phase 5.
@@ -136,7 +144,7 @@ Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
 T1 als Gatekeeper: entscheidet welche 2–3 Ansätze präsentiert werden.
 Keine KU-Mehrheitsabstimmung — T1 allein.
 
-**Retroaktive Konsistenzprüfung (Pflicht nach jeder Topic-Entscheidung):**
+**Retroaktive Konsistenzprüfung — K5 (Pflicht nach jeder Topic-Entscheidung):**
 Nach Verabschiedung eines Topics prüfen: Hat die aktuelle Entscheidung Einfluss auf bereits verabschiedete Topics? Falls ja → betroffene Topics explizit markieren und Anpassung vornehmen bevor weitergearbeitet wird.
 
 Pflichtblock je Ansatz:
@@ -175,6 +183,9 @@ Keine Umsetzung ohne explizite Nutzer-Bestätigung.
 
 ## Phase 5 — Propagations-Phase (Vault-Update)
 
+**K3-Gate (vor Vault-Update):**
+Gibt es offene Punkte mit Datenmodell-Relevanz? Falls ja → zuerst klären, dann Phase 5 starten.
+
 Sequenz fix — Reihenfolge nicht variieren:
 
 1. **GLOSSAR.md** — neue Begriffe AM ENDE anhängen (nie alphabetisch einfügen). Workflow → [[CLAUDE]]
@@ -187,7 +198,9 @@ Sequenz fix — Reihenfolge nicht variieren:
    - **[Entität]** — [was es ist, wovon es sich abgrenzt — ein Satz]
    ```
 
-   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge mit Auslöser. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterium K1.
+   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge mit Auslöser. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterien K1 + K8.
+   - Wenn Status-Entität: Tabelle Pflicht.
+   - Wenn keine Status-Entität: Abschnitt explizit mit Hinweis „— keine Status-Entität —" weglassen.
    ```
    ## Status-Übergänge
    **[Entität]**
@@ -200,6 +213,15 @@ Sequenz fix — Reihenfolge nicht variieren:
    ## Sonderfälle
    - [Situation]: [was passiert, wer ist betroffen]
    ```
+
+   **`## Modul-Grenzen`** — Alle Inputs und Outputs dieses Sub-Moduls mit Mechanismus. Domänensprache — keine Implementierungsdetails. Zweck: S2-Kriterium K4.
+   ```
+   ## Modul-Grenzen
+   - Input: [was kommt rein] — von [Quelle] via [Event / Service-Call / Interface]
+   - Output: [was geht raus] — an [Ziel] via [Event / Service-Call / Interface]
+   ```
+
+   **K7-Pflicht (gilt für alle Abschnitte):** Alle Varianten, Pfade und Nicht-Status-Regeln als Tabellen oder strukturierte Listen — kein Fließtext.
 4. **Sekundär-Doku** — weitere Modul-Überdateien bei Cross-Module-Impact · [[AXIS-Session-Start]] bei neuer Modul-Navigation
 5. **ADR + ADR-Index.md** — falls Architekturentscheidung getroffen wurde ([[Rulebook_Obsidian]] Abschnitt 3.5)
 6. **`/wikilink-check` aufrufen** — Validierungs-Endschritt
