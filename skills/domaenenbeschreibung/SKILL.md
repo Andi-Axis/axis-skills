@@ -179,7 +179,27 @@ Sequenz fix — Reihenfolge nicht variieren:
 
 1. **GLOSSAR.md** — neue Begriffe AM ENDE anhängen (nie alphabetisch einfügen). Workflow → [[CLAUDE]]
 2. **GLOSSAR-Index.md** — Term + Zeilennummer ergänzen
-3. **Primär-Doku** — Modul- oder Sub-Modul-Überdatei aktualisieren
+3. **Primär-Doku** — Modul- oder Sub-Modul-Überdatei aktualisieren. Bei `type: submodul-uebersicht` müssen nach dem Update folgende drei Abschnitte vorhanden sein (neu anlegen falls nicht vorhanden, ergänzen falls bereits vorhanden):
+
+   **`## Domänen-Objekte`** — Alle Entitäten des Sub-Moduls benennen und gegeneinander abgrenzen. Domänensprache — kein Datenmodell. Zweck: S2-Kriterium K2.
+   ```
+   ## Domänen-Objekte
+   - **[Entität]** — [was es ist, wovon es sich abgrenzt — ein Satz]
+   ```
+
+   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge mit Auslöser. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterium K1.
+   ```
+   ## Status-Übergänge
+   **[Entität]**
+   - Zustand1 → Zustand2 (Auslöser: ...)
+   - Zustand2 → Zustand3 (Auslöser: ...)
+   ```
+
+   **`## Sonderfälle`** — Ausnahmepfade und Fehlerzustände die im Normalfall nicht auftreten. Zweck: S2-Kriterium K6.
+   ```
+   ## Sonderfälle
+   - [Situation]: [was passiert, wer ist betroffen]
+   ```
 4. **Sekundär-Doku** — weitere Modul-Überdateien bei Cross-Module-Impact · [[AXIS-Session-Start]] bei neuer Modul-Navigation
 5. **ADR + ADR-Index.md** — falls Architekturentscheidung getroffen wurde ([[Rulebook_Obsidian]] Abschnitt 3.5)
 6. **`/wikilink-check` aufrufen** — Validierungs-Endschritt
