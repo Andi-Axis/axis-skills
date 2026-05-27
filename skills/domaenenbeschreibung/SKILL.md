@@ -74,23 +74,60 @@ Je aktiviertem KU muss die Einzeldatei geladen werden:
 
 ## Phase 2 — Iterations-Diskussion
 
-**Format:**
-- **Runde 1 — Grundabläufe (Normalfall):** Jeder aktivierte KU beschreibt den Normalfall aus seiner Rolle — täglich/wöchentlich, was passiert üblicherweise. **Keine Ausnahmen, keine Randszenarien, keine Lückensuche.** Etwas mehr Detail erlaubt — Kontextgrundlage für alle Folgerunden.
-- **Runde 2+:** Lückensuche, Konflikt-Synthese, Optionsskizzen.
+### Block A — Emergenz-Runde (einmalig)
 
-**Ablaufregeln:**
-- Mindestens 2 Runden · maximal 4 Runden.
-- **T1 in Runde 1: stummer Zuhörer.** Keine Topic-Marker, keine Zwischeneingriffe, keine Architektur-Hinweise währenddessen. Nur Notizen.
-- **T1 nach Runde 1:** Topic-Liste aufstellen — pro Topic: Name · 2–3 betroffene KUs (nicht alle). Topics ab Runde 2 nur mit den benannten KUs durchgehen; übrige KUs hören zu und melden sich nur bei direkter Betroffenheit.
-- **T2 in S1: Zuhör-Modus.** Eingriff ausschließlich bei Tech-Stack-Konflikt — eine Frage: „Geht das auch anders?" Architektur-Input, Pattern-Vorschläge, Implementierungsdetails → S2, nicht hier.
+**Zweck:** Organische Topic-Emergenz — Unbekanntes aufdecken.
+
+- Alle aktivierten KUs beschreiben den Normalfall aus ihrer Rolle — täglich/wöchentlich, was passiert üblicherweise. **Keine Ausnahmen, keine Randszenarien, keine Lückensuche.** Etwas mehr Detail erlaubt — Kontextgrundlage für Block C.
+- **T1: stummer Zuhörer.** Keine Topic-Marker, keine Zwischeneingriffe, keine Architektur-Hinweise. Nur Notizen — T1 führt still eine Topic-Rohlist.
+- **T2: Zuhör-Modus.** Eingriff ausschließlich bei Tech-Stack-Konflikt — eine Frage: „Geht das auch anders?" Alles weitere → S2.
+
+---
+
+### Block B — T1-Triage (nach Emergenz-Runde)
+
+**Zweck:** Priorisierte Topic-Queue erstellen — Grundlage für Block C.
+
+T1 erstellt direkt im Anschluss an Block A die Topic-Queue. Ausgabe-Format:
+
+```
+Topic-Queue:
+1. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
+2. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
+...
+```
+
+**Priorisierungskriterien — Reihenfolge verbindlich:**
+
+| Priorität | Kriterium | Leitfrage |
+|---|---|---|
+| 1 | Abhängigkeit | Blockiert dieses Topic andere Topics? |
+| 2 | Konzept-Fundament | Definiert es Basis-Begriffe die andere Topics voraussetzen? |
+| 3 | Cross-Module-Impact | Berührt es mehrere Module? |
+| 4 | Reversibilität | Ist die Entscheidung schwer rückgängig zu machen? |
+| 5 | KU-Batching | Topics mit gleichen KUs gruppieren (Effizienz — kein Inhaltskriterium) |
+
+Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
+
+---
+
+### Block C — Fokus-Sprints
+
+**Zweck:** Ein Topic vollständig abschließen bevor das nächste beginnt.
+
+**Pro Sprint:**
+- Nur die in der Queue benannten KUs sprechen; übrige hören zu und melden sich nur bei direkter Betroffenheit.
+- Runde 1: Normalfall für dieses Topic.
+- Runde 2+: Lückensuche, Konflikt-Synthese, Optionsskizzen.
+- Mindestens 1 Runde · maximal 4 Runden je Sprint.
+- Nach 4 Runden ohne Einigung → Konflikt-Eskalation (Format: siehe Phase 3).
+- Nach Entscheidung (Phase 4): **retroaktive Konsistenzprüfung** — Hat die aktuelle Entscheidung Einfluss auf bereits abgeschlossene Topics? Falls ja → betroffene Topics explizit markieren und Anpassung vornehmen.
+- Sprint-Abschluss → nächstes Topic aus Queue.
+
+**Allgemeine Regeln:**
 - Topic = ein Punkt der eine Nutzer-Entscheidung erfordert.
 - Neuer Glossar-Begriff: Definition inline setzen, damit weiterarbeiten — GLOSSAR-Update in Phase 5.
-- Nach 4 Runden ohne Einigung zu einem Topic → Konflikt-Eskalation (Format: siehe Phase 3).
-
-**Rollenkonformität** (vollständige Regeln in [[KU-Uebersicht]]):
-- Jeder KU denkt und spricht ausschließlich aus der eigenen Rolle.
-- Aktive Lückensuche ab Runde 2: was fehlt, was ist widersprüchlich, was ist nicht praxistauglich.
-- Kein Ja-Sagen ohne rollenspezifische Validierung.
+- Rollenkonformität (vollständige Regeln in [[KU-Uebersicht]]): Jeder KU denkt und spricht ausschließlich aus der eigenen Rolle. Kein Ja-Sagen ohne rollenspezifische Validierung.
 
 ---
 
