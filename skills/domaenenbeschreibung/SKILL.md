@@ -6,7 +6,7 @@ description: >
   inhaltlich erarbeitet werden soll, wenn neue Domänenfragen zu klären sind.
   Auch standalone für beliebige Domänenfragen nutzbar — nicht nur als Teil eines vollständigen
   S1-S5-Durchlaufs. Phase S1 im AXIS-Skill-Tree. Ergebnis: aktualisierte Vault-Dokumente.
-  Aufrufbar via /domaenenbeschreibung.
+  Aufrufbar via /s1-domaene.
 ---
 
 # S1 — Domänenbeschreibung
@@ -126,11 +126,11 @@ Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
 
 **Sprint-K-Check (vor Sprint-Abschluss — Pflicht):**
 T1 prüft nach der letzten Runde. Fehlende Antwort → Nachfrage, Sprint bleibt offen:
-- K1/K8: Alle Zustände und Übergänge dieser Entität benannt? Oder explizit: keine Status-Entität?
+- K1/K8: Alle Zustände und erlaubten Übergänge benannt (`Zustand → Zustand`, keine Auslöser/Bedingungen)? Oder explizit: keine Status-Entität?
 - K2: Entität klar von verwandten Domänen-Objekten abgegrenzt?
-- K3: Kein offener Blocker mit Datenmodell-Relevanz?
+- K3: Kein offener Blocker mit Datenmodell-Relevanz? Alle berührten Shared Entities mit Owner-BC in [[GLOB-Modul-Uebersicht]] §Shared Entities eingetragen?
 - K6: Mindestens ein Ausnahmepfad identifiziert — oder explizit als keiner bestätigt?
-- K7: Alle Varianten und Pfade in Tabellenform — kein Fließtext?
+- K7: Alle Nicht-Status-Regeln als Tabelle `ID · Wenn · Dann`? Regel-IDs vergeben?
 
 **Allgemeine Regeln:**
 - Topic = ein Punkt der eine Nutzer-Entscheidung erfordert.
@@ -184,7 +184,8 @@ Keine Umsetzung ohne explizite Nutzer-Bestätigung.
 ## Phase 5 — Propagations-Phase (Vault-Update)
 
 **K3-Gate (vor Vault-Update):**
-Gibt es offene Punkte mit Datenmodell-Relevanz? Falls ja → zuerst klären, dann Phase 5 starten.
+1. Gibt es offene Punkte mit Datenmodell-Relevanz? Falls ja → zuerst klären, dann Phase 5 starten.
+2. **Shared-Entity-Pflicht:** Alle Entitäten dieses Sub-Moduls gegen [[GLOB-Modul-Uebersicht]] §Shared Entities prüfen. Entität dort registriert → Owner-BC übernehmen. Entität nicht registriert → in §Shared Entities ergänzen mit Owner-BC. Offener Owner-BC = Blocker — kein Vault-Update bevor Owner-BC geklärt ist.
 
 Sequenz fix — Reihenfolge nicht variieren:
 
@@ -198,14 +199,24 @@ Sequenz fix — Reihenfolge nicht variieren:
    - **[Entität]** — [was es ist, wovon es sich abgrenzt — ein Satz]
    ```
 
-   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge mit Auslöser. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterien K1 + K8.
-   - Wenn Status-Entität: Tabelle Pflicht.
+   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge. **Minimal in S1: nur `Zustand → Zustand`, keine Auslöser, keine Bedingungen** — Auslöser/Bedingungen/Trigger kommen erst in S3 Companion State Machine. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterien K1 + K8.
+   - Wenn Status-Entität: Liste Pflicht.
    - Wenn keine Status-Entität: Abschnitt explizit mit Hinweis „— keine Status-Entität —" weglassen.
    ```
    ## Status-Übergänge
    **[Entität]**
-   - Zustand1 → Zustand2 (Auslöser: ...)
-   - Zustand2 → Zustand3 (Auslöser: ...)
+   - Zustand1 → Zustand2
+   - Zustand2 → Zustand3
+   ```
+
+   **`## Regeln`** — Alle fachlichen Wenn-Dann-Regeln die nicht durch Status-Übergänge abgedeckt sind. **Minimal in S1: `ID · Wenn · Dann` (fachlich), kein `Typ`, kein `Constraint-Ort`** — beide kommen erst in S3 Companion Regelkatalog. Regel-IDs sind Brücke zu S3: dieselben IDs in beiden Dokumenten — keine fachliche Doppelpflege. Zweck: S2-Kriterium K7.
+   - Wenn Nicht-Status-Regeln vorhanden: Tabelle Pflicht.
+   - Wenn keine: Abschnitt explizit mit Hinweis „— keine Regeln außerhalb Status-Übergänge —" weglassen.
+   ```
+   ## Regeln
+   | ID    | Wenn        | Dann        |
+   |-------|-------------|-------------|
+   | R-001 | ...         | ...         |
    ```
 
    **`## Sonderfälle`** — Ausnahmepfade und Fehlerzustände die im Normalfall nicht auftreten. Zweck: S2-Kriterium K6.
