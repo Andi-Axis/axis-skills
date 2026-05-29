@@ -9,7 +9,7 @@
     {
       "name": "axis-skills",
       "description": "AXIS-Projekt Skills: Wikilink-Check, Domänenbeschreibung, Vault-Governance und Dokumentationspflege.",
-      "version": "0.2.11",
+      "version": "0.2.12",
       "source": "./",
       "author": {
         "name": "Andi-Axis"
