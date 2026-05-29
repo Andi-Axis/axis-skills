@@ -14,17 +14,14 @@ description: >
 Vault-Pfad: `C:\AXIS\vault\`
 
 Zweck: Domänenanforderungen durch strukturierte Iteration mit dem KI-Key-User-Team ermitteln.
-Ergebnis: aktualisierte Vault-Dokumente — Modul-/Sub-Modul-Überdateien, GLOSSAR, ggf. ADRs.
-
+Ergebnis: Lückenlose Prozessdokumentation der — Modul-/Sub-Modul-Überdateien, GLOSSAR, ggf. ADRs.
+Zweck der Modulbeschreibungen - Dient als Lastenheft für die Spec erstellung und Basis des Coding - Agents
 ---
-
 ## Phase 0 — Pre-Check (Pflicht)
-
-Jedes Laden ankündigen: „Ich lade [Dateiname] — [Begründung in einem Satz]."
 
 Pflicht-Loads in dieser Reihenfolge:
 
-1. [[KU-Uebersicht]] — allgemeine Eigenschaften aller KU-Rollen
+1. [[KU-Uebersicht]] — allgemeine Eigenschaften
 2. [[GLOSSAR-Index]] — topic-relevante Begriffe identifizieren (**nie** `GLOSSAR.md` direkt laden — [[CLAUDE]])
 3. Modul- und Sub-Modul-Überdatei(en) im Topic-Bereich — T1 entscheidet welche geladen werden
 4. [[ADR-Index]] — bestehende Architekturentscheidungen im Topic-Bereich prüfen
@@ -32,43 +29,18 @@ Pflicht-Loads in dieser Reihenfolge:
 
 **WIP-Check:** wenn eine geladene Überdatei einen `🔄 S1-WIP`-Marker enthält → nahtlos an Runde N und Topic aus Marker weiterführen.
 
-**Snapshot-Check:** wenn ein Entscheidungs-Snapshot aus einem vorherigen Sub-Modul im Kontext vorliegt → Phase 0 überspringen, Snapshot als Basis verwenden, direkt zu Phase 1.
-
-**Compact-Angebot (Ende Phase 0):**
-Nach Abschluss aller Loads — vor Phase 1 — folgende Abfrage ausgeben:
-
-```
-Kontext geladen. Möchtest du vor dem Start komprimieren? (empfohlen bei langer Vorgeschichte)
-[J] Compact ausführen → dann weiter  |  [N] Direkt starten
-```
-
-Nutzer antwortet — bei J: `/compact` ausführen, dann Phase 1 starten. Bei N: direkt Phase 1.
-
 ---
 
 ## Phase 1 — KU-Auswahl
 
-T1 schlägt anhand der Cross-Module-Übersicht ein KU-Set vor.
-Nutzer bestätigt oder ergänzt. Default-Bias: bei Zweifel aufnehmen statt weglassen.
+T1 definiert anhand der Cross-Module-Übersicht ein KU-Set 
+- Default-Bias: Nur die wichtigen KUs - keine Nebengeräusche
 
 Je aktiviertem KU muss die Einzeldatei geladen werden:
-
-| Kürzel | Datei |
-|---|---|
-| A1 | [[KU-A1-Vertrieb]] |
-| A2 | [[KU-A2-Planung-Disposition]] |
-| A3 | [[KU-A3-Beschaffung-Material]] |
-| A4 | [[KU-A4-Projekt-QGates]] |
-| A5 | [[KU-A5-Produktion-Durchsatz]] |
-| A6 | [[KU-A6-Qualitaet]] |
-| T1 | [[KU-T1-System-Architekt]] |
-| T2 | [[KU-T2-Senior-Developer]] |
 
 **Vereinigungsregel:**
 - [[KU-Uebersicht]]-Eigenschaften gelten uneingeschränkt für alle aktivierten KUs.
 - **`## Unser Prozess`** — definiert die unternehmensreale Prozessrealität dieser Rolle. Überschreibt generische ERP-Annahmen. KU-Aussagen die gegen `## Unser Prozess` verstoßen sind Fehler — sofort korrigieren.
-- Einzeldatei-Erweiterungen (Fachwissen-Anker · Erfahrungsnarben · Argumentationsmuster) ergänzen orthogonal.
-- Bei Widerspruch zwischen Übersicht und Einzeldatei: Übersicht gewinnt — Stelle als Konflikt markieren.
 
 ---
 
@@ -95,7 +67,6 @@ Topic-Queue:
 1. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
 2. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
 ...
-```
 
 **Priorisierungskriterien — Reihenfolge verbindlich:**
 
@@ -107,22 +78,24 @@ Topic-Queue:
 | 4 | Reversibilität | Ist die Entscheidung schwer rückgängig zu machen? |
 | 5 | KU-Batching | Topics mit gleichen KUs gruppieren (Effizienz — kein Inhaltskriterium) |
 
-Nutzer bestätigt oder korrigiert die Queue. Erst dann startet Block C.
-
 ---
 
 ### Block C — Fokus-Sprints
 
-**Zweck:** Ein Topic vollständig abschließen bevor das nächste beginnt.
+**Ziel:** Vollwertige Iterationsrunden pro Topic vollständig abschließen bevor das nächste beginnt.
 
 **Pro Sprint:**
-- Nur die in der Queue benannten KUs sprechen; übrige hören zu und melden sich nur bei direkter Betroffenheit.
-- Runde 1: Normalfall für dieses Topic.
-- Runde 2+: Lückensuche, Konflikt-Synthese, Optionsskizzen.
-- Mindestens 1 Runde · maximal 4 Runden je Sprint.
-- Nach 4 Runden ohne Einigung → Konflikt-Eskalation (Format: siehe Phase 3).
-- Nach Entscheidung (Phase 4): **retroaktive Konsistenzprüfung** — siehe Phase 3.
-- Sprint-Abschluss → nächstes Topic aus Queue.
+- Nur die in der Queue benannten KUs blicken auf die Problemstellung, jeder aus seinem Blickwinkel
+-Challenge against the glossary - When the user uses a term that conflicts with the existing language, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
+-When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account' — do you mean the Customer or the User? Those are different things."
+-When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that probe edge cases and force the user to be precise about the boundaries between concepts.
+
+Workflow:
+- Standardworkflow beschreiben - bei Fragen mehrere Iteartonsrunden mit dem KUs und Nutzer 
+- Erarbeite 3 konkrete Lösungvorschläge nach Pareto Prinzip 20% Aufwand = 80% Leistung - wie dies in AXIS abgebildet werden kann.
+- Wichtig ist die Einhaltung der in K1-K8 genannten Kriterien
+- Prüfen gegen die Krieterien aus Sprint-K-Check
+- Sofern Sprint Check bestanden - nächstes Topic
 
 **Sprint-K-Check (vor Sprint-Abschluss — Pflicht):**
 T1 prüft nach der letzten Runde. Fehlende Antwort → Nachfrage, Sprint bleibt offen:
@@ -135,145 +108,40 @@ T1 prüft nach der letzten Runde. Fehlende Antwort → Nachfrage, Sprint bleibt 
 **Allgemeine Regeln:**
 - Topic = ein Punkt der eine Nutzer-Entscheidung erfordert.
 - Neuer Glossar-Begriff: Definition inline setzen, damit weiterarbeiten — GLOSSAR-Update in Phase 5.
-- Rollenkonformität (vollständige Regeln in [[KU-Uebersicht]]): Jeder KU denkt und spricht ausschließlich aus der eigenen Rolle. Kein Ja-Sagen ohne rollenspezifische Validierung.
 
----
+Ziel von Phase 2: -Prozessdefinition von jedem Topic lückenlos abschließen
 
-## Phase 3 — Lösungsansätze pro Topic
+## Phase 3 — Propagations-Phase (Vault-Update)
 
-T1 als Gatekeeper: entscheidet welche 2–3 Ansätze präsentiert werden.
-Keine KU-Mehrheitsabstimmung — T1 allein.
-
-**Retroaktive Konsistenzprüfung — K5 (Pflicht nach jeder Topic-Entscheidung):**
-Nach Verabschiedung eines Topics prüfen: Hat die aktuelle Entscheidung Einfluss auf bereits verabschiedete Topics? Falls ja → betroffene Topics explizit markieren und Anpassung vornehmen bevor weitergearbeitet wird.
-
-Pflichtblock je Ansatz:
-
-```
-Topic: {Name}
-
-Lösungsansatz {A/B/C}:
-- Vorschlag: ...
-- Was sieht der Anwender davon? ... (ein Satz in Anwendersprache — Pflichtfeld)
-- Cross-Module-Impact:
-  - Modul X → Auswirkung Y
-  - Modul Z → unverändert
-- Minderheitsvotum {KU-Kürzel}: ... (nur wenn vorhanden)
-```
-
-**Konflikt-Eskalation** (nach 4 Runden ohne Einigung):
-
-```
-Konflikt-Eskalation Topic: {Name}
-- Konfliktpunkte: ...
-- Positionen je KU: {Kürzel}: ...
-- T1-Analyse: ...
-- Erforderlich: Nutzer-Entscheidung
-```
-
----
-
-## Phase 4 — Nutzer-Entscheidung
-
-Nutzer wählt Lösungsansatz oder gibt Override.
-Bei Eskalation: Nutzer entscheidet direkt.
-Keine Umsetzung ohne explizite Nutzer-Bestätigung.
-
----
-
-## Phase 5 — Propagations-Phase (Vault-Update)
-
-**K3-Gate (vor Vault-Update):**
-1. Gibt es offene Punkte mit Datenmodell-Relevanz? Falls ja → zuerst klären, dann Phase 5 starten.
-2. **Shared-Entity-Pflicht:** Alle Entitäten dieses Sub-Moduls gegen [[GLOB-Modul-Uebersicht]] §Shared Entities prüfen. Entität dort registriert → Owner-BC übernehmen. Entität nicht registriert → in §Shared Entities ergänzen mit Owner-BC. Offener Owner-BC = Blocker — kein Vault-Update bevor Owner-BC geklärt ist.
+**Shared-Entity-Pflicht:** Alle Entitäten dieses Sub-Moduls gegen [[GLOB-Modul-Uebersicht]] §Shared Entities prüfen. Entität dort registriert → Owner-BC übernehmen. Entität nicht registriert → in §Shared Entities ergänzen mit Owner-BC. Offener Owner-BC = Blocker — kein Vault-Update bevor Owner-BC geklärt ist.
 
 Sequenz fix — Reihenfolge nicht variieren:
 
 1. **GLOSSAR.md** — neue Begriffe AM ENDE anhängen (nie alphabetisch einfügen). Workflow → [[CLAUDE]]
 2. **GLOSSAR-Index.md** — Term + Zeilennummer ergänzen
-3. **Primär-Doku** — Modul- oder Sub-Modul-Überdatei aktualisieren. Bei `type: submodul-uebersicht` müssen nach dem Update folgende drei Abschnitte vorhanden sein (neu anlegen falls nicht vorhanden, ergänzen falls bereits vorhanden):
+3. **Primär-Doku** — Modul- oder Sub-Modul-Überdatei aktualisieren. Bei `type: submodul-uebersicht` muss zwingend folgende Struktur angewendet werden:
+ ## SUBMODUL-UEBERSICHT-BEFÜLLUNG
 
-   **`## Domänen-Objekte`** — Alle Entitäten des Sub-Moduls benennen und gegeneinander abgrenzen. Domänensprache — kein Datenmodell. Zweck: S2-Kriterium K2.
-   ```
-   ## Domänen-Objekte
-   - **[Entität]** — [was es ist, wovon es sich abgrenzt — ein Satz]
-   ```
+Gegen VORLAGE: `_Vorlagen/Submodul-Uebersicht-Template.md` prüfen - noch nicht enthaltene Abschnitte müssen zwingend ergänzt werden.
 
-   **`## Status-Übergänge`** — Je Entität alle Zustände und erlaubte Übergänge. **Minimal in S1: nur `Zustand → Zustand`, keine Auslöser, keine Bedingungen** — Auslöser/Bedingungen/Trigger kommen erst in S3 Companion State Machine. Domänensprache — keine Enums oder Datentypen. Zweck: S2-Kriterien K1 + K8.
-   - Wenn Status-Entität: Liste Pflicht.
-   - Wenn keine Status-Entität: Abschnitt explizit mit Hinweis „— keine Status-Entität —" weglassen.
-   ```
-   ## Status-Übergänge
-   **[Entität]**
-   - Zustand1 → Zustand2
-   - Zustand2 → Zustand3
-   ```
+### Grundregeln
 
-   **`## Regeln`** — Alle fachlichen Wenn-Dann-Regeln die nicht durch Status-Übergänge abgedeckt sind. **Minimal in S1: `ID · Wenn · Dann` (fachlich), kein `Typ`, kein `Constraint-Ort`** — beide kommen erst in S3 Companion Regelkatalog. Regel-IDs sind Brücke zu S3: dieselben IDs in beiden Dokumenten — keine fachliche Doppelpflege. Zweck: S2-Kriterium K7.
-   - Wenn Nicht-Status-Regeln vorhanden: Tabelle Pflicht.
-   - Wenn keine: Abschnitt explizit mit Hinweis „— keine Regeln außerhalb Status-Übergänge —" weglassen.
-   ```
-   ## Regeln
-   | ID    | Wenn        | Dann        |
-   |-------|-------------|-------------|
-   | R-001 | ...         | ...         |
-   ```
+- **Frontmatter `status`**: immer `entwurf` bei Erstanlage
+- **Frontmatter `summary`**: 1 Satz · max 200 Zeichen · fachliche Verantwortung — kein Fließtext
+- **TL;DR**: max 15 Wörter · kein "Dieses Modul…"-Einstieg
+- **Domänen-Objekte**: nur Objekte die dieses Sub-Modul OWNED · fremde Aggregate nur mit `Owned by [[Wikilink]]`
+- **Status-Übergänge**: Sektion weglassen wenn kein Status-Feld vorhanden
+- **Regeln**: nur aufnehmen wenn nicht trivial aus Status-Übergängen ableitbar
+- **Sonderfälle**: nur echte Prozesszweige — kein Fehlerhandling, keine UI-Varianten
+- **Offene Punkte**: erledigte Punkte sofort entfernen — kein Done-Status
+- **Learnings**: leer lassen bei Erstanlage — Abschnitt trotzdem behalten
+- **Specs**: Sektion weglassen wenn kein Spec-Dokument existiert
 
-   **`## Sonderfälle`** — Ausnahmepfade und Fehlerzustände die im Normalfall nicht auftreten. Zweck: S2-Kriterium K6.
-   ```
-   ## Sonderfälle
-   - [Situation]: [was passiert, wer ist betroffen]
-   ```
-
-   **`## Modul-Grenzen`** — Alle Inputs und Outputs dieses Sub-Moduls mit Mechanismus. Domänensprache — keine Implementierungsdetails. Zweck: S2-Kriterium K4.
-   ```
-   ## Modul-Grenzen
-   - Input: [was kommt rein] — von [Quelle] via [Event / Service-Call / Interface]
-   - Output: [was geht raus] — an [Ziel] via [Event / Service-Call / Interface]
-   ```
-
-   **K7-Pflicht (gilt für alle Abschnitte):** Alle Varianten, Pfade und Nicht-Status-Regeln als Tabellen oder strukturierte Listen — kein Fließtext.
 4. **Sekundär-Doku** — weitere Modul-Überdateien bei Cross-Module-Impact · [[AXIS-Session-Start]] bei neuer Modul-Navigation
 5. **ADR + ADR-Index.md** — falls Architekturentscheidung getroffen wurde ([[Rulebook_Obsidian]] Abschnitt 3.5)
 6. **`/wikilink-check` aufrufen** — Validierungs-Endschritt
 
-**Eskalationsregeln:**
-
-| Situation | Regel |
-|---|---|
-| Neues Modul | Höchste Eskalation — Nutzer-Bestätigung Pflicht vor Anlage. T1 schlägt Präfix, Ordner-Nummer und [[AXIS-Session-Start]]-Eintrag vor. |
-| Neue Domäne ohne neues Modul | Datei mit `status: entwurf` anlegen |
-| Neues Vault-Dokument | Rulebook-Konformität Pflicht: Frontmatter · Wikilinks · Status · Template als Basis ([[Rulebook_Obsidian]] Abschnitt 3) |
-
-Commit: nie durch Skill → [[CLAUDE]]
-
-**Entscheidungs-Snapshot (Ende Phase 5):**
-
-Nach jedem abgeschlossenen Sub-Modul folgenden Block ausgeben:
-
-```
-── Snapshot Sub-Modul: {Name} ──────────────────────
-Entschieden: {Punkt 1} · {Punkt 2} · {Punkt 3}
-Vault-Updates: {Dateiliste}
-Offen: {WIP-Marker falls vorhanden / — wenn nichts offen}
-────────────────────────────────────────────────────
-Kontext-Status: {grün · gelb · rot} — ca. {N} weitere Sub-Module möglich.
-Weiter mit nächstem Sub-Modul? [J] Nächstes Sub-Modul benennen  |  [N] Session beenden
-```
-
-**Kontext-Status-Logik (T1-Einschätzung):**
-
-| Status | Bedeutung |
-|---|---|
-| 🟢 grün | Problemlos weitermachen |
-| 🟡 gelb | 1 weiteres Sub-Modul sicher · danach Compact oder neue Session empfohlen |
-| 🔴 rot | Compact jetzt oder neue Session — weitermachen riskiert Kontextverlust |
-
-Bei 🟡 oder 🔴: Compact-Angebot ausgeben vor dem nächsten Sub-Modul.
-
----
-
-## Phase 6 — Learnings-Update (nach jeder Session)
+## Phase 4 — Learnings-Update (nach jeder Session)
 
 **Auslöser — proaktiv, nicht signal-abhängig:**
 Jede der folgenden Situationen löst automatisch einen Learning-Kandidaten-Check aus — ohne explizites Signal des Nutzers:
@@ -306,36 +174,12 @@ Jede der folgenden Situationen löst automatisch einen Learning-Kandidaten-Check
 
 **Schreib-Ziel:** `vault/_Key-User/KU-{Kürzel}-*.md` → Abschnitt `## Learnings`
 
-Commit: nie durch Skill → [[CLAUDE]]
-
----
-
-## Unterbrechung & Wiederaufnahme
-
-**Bei Unterbrechung** — sofort ausführen:
-
-1. WIP-Marker in betroffene Vault-Überdatei eintragen:
-   - Modul-Überdatei: Abschnitt `## Offene Diskussionen`
-   - Sub-Modul-Überdatei: Abschnitt `## Offene Punkte`
-
-   ```
-   > 🔄 S1-WIP — unterbrochen YYYY-MM-DD · Stand: Runde N · Letztes Topic: {Name}
-   > Wiederaufnahme: S1 starten mit Verweis auf dieses Dokument
-   ```
-
-2. Eintrag in [[SPRINT-Aktuell]] als ToDo mit Wikilink auf das markierte Dokument.
-
-**Bei Wiederaufnahme:** Phase 0 erkennt WIP-Marker — nahtlos an Stand des Markers weiterführen.
-
----
-
 ## Governance & Verbote
 
 Regeln werden verlinkt, nicht dupliziert:
 
 | Verbot | Quelle |
-|---|---|
-| Kein Commit durch Skill | [[CLAUDE]] |
+
 | Keine stillen Annahmen · Eskalationspflicht bei Geschäftsprozess-/Datenkonflikten | [[CLAUDE]] |
 | `GLOSSAR.md` nie direkt laden | [[CLAUDE]] |
 | Dokumente mit `status: veraltet` nie laden | [[CLAUDE]] |
