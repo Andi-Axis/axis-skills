@@ -19,16 +19,6 @@ Zweck der Modulbeschreibungen - Dient als Lastenheft für die Spec erstellung un
 ---
 ## Phase 0 — Pre-Check (Pflicht)
 
-Pflicht-Loads in dieser Reihenfolge:
-
-1. [[KU-Uebersicht]] — allgemeine Eigenschaften
-2. [[GLOSSAR-Index]] — topic-relevante Begriffe identifizieren (**nie** `GLOSSAR.md` direkt laden — [[CLAUDE]])
-3. Modul- und Sub-Modul-Überdatei(en) im Topic-Bereich — T1 entscheidet welche geladen werden
-4. [[ADR-Index]] — bestehende Architekturentscheidungen im Topic-Bereich prüfen
-5. Aktive Specs im Topic-Bereich (`status: entwurf` oder `status: freigegeben`) — T1 entscheidet welche geladen werden
-
-**WIP-Check:** wenn eine geladene Überdatei einen `🔄 S1-WIP`-Marker enthält → nahtlos an Runde N und Topic aus Marker weiterführen.
-
 ---
 
 ## Phase 1 — KU-Auswahl
