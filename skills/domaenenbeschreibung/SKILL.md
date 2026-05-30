@@ -96,6 +96,8 @@ Ein Topic vollständig abschließen (inkl. Gate), bevor das nächste beginnt.
    bestätigt, wenn er einer Challenge (siehe Challenge-Mandat) standgehalten hat — die KI
    versucht aktiv, die Antwort zu brechen, bevor sie sie annimmt. Unbestätigtes bleibt in
    „Offene Punkte". **Kein Fortschritt zum nächsten Topic, solange ein Punkt offen ist.**
+6. **Bestätigungs-Gate 2.** Die finale Version des Topics ist nochmal ausdrücklich gegen
+   `references/abdeckungs-checkliste.md` zu prüfen 
 
 **Tag-Disziplin (hart, auditierbar):** `[abgeleitet]` ist nur erlaubt, wenn die Quelle benannt
 werden kann. Plausibel-klingend genügt nicht — dann ist es `[Annahme]`. Prüfregel: „abgeleitet
