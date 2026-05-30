@@ -1,176 +1,144 @@
 ---
 description: >
-  Domänenanforderungen strukturiert ermitteln durch Iteration mit dem 8-köpfigen KI-Key-User-Team
-  (A1–A6, T1, T2). Auslösen bei: "Domänenbeschreibung", "Key User Round Table", "KU-Runde",
-  "Domäne beschreiben", "Anforderungen ermitteln", "S1 starten", wenn ein Modul oder Sub-Modul
-  inhaltlich erarbeitet werden soll, wenn neue Domänenfragen zu klären sind.
-  Auch standalone für beliebige Domänenfragen nutzbar — nicht nur als Teil eines vollständigen
-  S1-S5-Durchlaufs. Phase S1 im AXIS-Skill-Tree. Ergebnis: aktualisierte Vault-Dokumente.
-  Aufrufbar via /s1-domaene.
+  Erstellt eine Sub-Modul-Beschreibung für AXIS topic-weise: Die KI entwirft pro Topic mit
+  Herkunfts-Tags (abgeleitet/Annahme/Lücke), der Nutzer klärt nur die markierten Annahmen und
+  Lücken statt ein ganzes Dokument zu korrigieren. Firmenfakten stammen aus
+  [[GLOB-Domänenwissen]]; der Nutzer ist alleinige Wahrheitsquelle. Auslösen bei:
+  "Submodul-Beschreibung", "Sub-Modul beschreiben", "Domänenbeschreibung", "Modul erarbeiten",
+  "Lastenheft für Modul", "S1 starten". Ergebnis: fertige Submodul-Übersicht im Vault inkl.
+  Propagation (GLOSSAR, Index, ADR, Wikilink-Check). Aufrufbar via /s1-domaene.
 ---
 
-# S1 — Domänenbeschreibung
+# S1 — Sub-Modul-Beschreibung
 
 Vault-Pfad: `C:\AXIS\vault\`
 
-Zweck: Domänenanforderungen durch strukturierte Iteration mit dem KI-Key-User-Team ermitteln.
-Ergebnis: Lückenlose Prozessdokumentation der — Modul-/Sub-Modul-Überdateien, GLOSSAR, ggf. ADRs.
-Zweck der Modulbeschreibungen - Dient als Lastenheft für die Spec erstellung und Basis des Coding - Agents
----
+Zweck: Eine lückenlose Sub-Modul-Beschreibung erarbeiten, die als Lastenheft für die
+Spec-Erstellung und als Basis des Coding-Agenten dient.
+
+## Grundprinzip
+
+- **Der Nutzer ist die alleinige Wahrheitsquelle** für die reale Geschäftsprozessrealität.
+- **Faktenquelle der KI = [[GLOB-Domänenwissen]].** Nur was dort (oder im Nutzer-Input dieser
+  Session) belegt ist, gilt als gewusst. Alles andere ist Hypothese — generische ERP-Muster
+  nie als Firmenfakt behaupten.
+- **Interaktionsmodell = Entwurf-mit-Tags, dann Korrektur.** Die KI hebt das Gewicht
+  (entwirft), der Nutzer arbeitet nur an den markierten unsicheren Stellen.
+- **Nichts ist fertig ohne ausdrückliche Zustimmung.** Stille zählt nicht.
+
+## Challenge-Mandat (Haltung)
+
+Die KI agiert wie ein externer Unternehmensberater bzw. die Geschäftsleitung im Review:
+Sie behandelt jede Beschreibung als unvollständig, bis das Gegenteil bewiesen ist, und sucht
+unermüdlich die Lücke. Sie stellt Prämissen in Frage — auch wenn eine Annahme bequem oder
+naheliegend wirkt.
+
+**So wird gefordert:**
+- Vage oder ausweichende Antworten nicht durchgehen lassen — präzisieren lassen.
+- Jede nicht-triviale Regel/Entscheidung muss mit einer **konkreten Anforderung aus der
+  Domäne** begründbar sein. Nicht akzeptiert: „macht jedes ERP so" · „war schon immer so" ·
+  „ist halt der Standard".
+- Die *nicht gestellte* Frage aufdecken: „Du beschreibst den Normalfall — was passiert, wenn …?"
+- Unbequeme Geschäftsfragen stellen: Was kostet der Fehlerfall? Wer ist verantwortlich? Was
+  passiert bei Änderung mitten im Prozess?
+
+**Disziplin (sonst wird Rigorosität zur Pose):**
+- **Fragend, nie behauptend** — Lücken und unbegründete Annahmen angreifen, nie Gegen-Fakten
+  erfinden. Challenge erzeugt nie `[abgeleitet]`.
+- **Verhältnismäßig** — hart bei Entscheidungen, die teuer, schwer reversibel, fundamental oder
+  vage sind; keine erfundenen Einwände und kein Kleinklauben, nur um gründlich zu wirken.
+- **Knapp** — die wenigen unbequemen Fragen, nicht Masse. Unermüdlich = nichts rutscht durch.
+
+## Token-Disziplin
+
+- Dem Nutzer nur die *unsicheren* Stellen vorlegen (Annahmen + Lücken), nicht den ganzen
+  Entwurf. Leitmetrik: Länge der vom Nutzer erwarteten Antwort minimieren.
+- Lückenlisten kurz und nummeriert. Kein Dialog-Theater, keine Wiederholungen.
+
 ## Phase 0 — Pre-Check (Pflicht)
 
----
+1. **Zielobjekt klären:** Welches Sub-Modul? Bei Unklarheit rückfragen — keine stille Annahme.
+2. **Kontext laden:** [[GLOB-Domänenwissen]], Modul-Überdatei, [[GLOB-Modul-Uebersicht]]
+   §Shared Entities, [[GLOSSAR-Index]] (`GLOSSAR.md` nie direkt laden → [[CLAUDE]]),
+   Cross-Module-Übersicht, Template `_Vorlagen/Submodul-Uebersicht-Template.md`,
+   `references/abdeckungs-checkliste.md`.
+3. **Status-Filter:** Dokumente mit `status: veraltet` nicht laden.
+4. **Scope bestätigen:** ein Satz an den Nutzer — was diese Session erarbeitet und was nicht.
 
-## Phase 1 — KU-Auswahl
+## Phase 1 — Topic-Liste (Makro-Gerüst)
 
-T1 definiert anhand der Cross-Module-Übersicht ein KU-Set 
-- Default-Bias: Nur die wichtigen KUs - keine Nebengeräusche
+Die KI schlägt aus Modulkontext + Prüfebenen der Abdeckungs-Checkliste eine Topic-Liste vor.
+Der Nutzer editiert und bestätigt sie — sie ist sein Anhaltspunkt und der erste
+Vollständigkeits-Check („sind alle Themen da?").
 
-Je aktiviertem KU muss die Einzeldatei geladen werden:
+Priorisierung (Reihenfolge verbindlich):
+Abhängigkeit > Konzept-Fundament > Cross-Module-Impact > Reversibilität > Themen-Batching.
 
-**Vereinigungsregel:**
-- [[KU-Uebersicht]]-Eigenschaften gelten uneingeschränkt für alle aktivierten KUs.
-- **`## Unser Prozess`** — definiert die unternehmensreale Prozessrealität dieser Rolle. Überschreibt generische ERP-Annahmen. KU-Aussagen die gegen `## Unser Prozess` verstoßen sind Fehler — sofort korrigieren.
+## Phase 2 — Pro Topic: Entwurf-mit-Tags
 
----
+Ein Topic vollständig abschließen (inkl. Gate), bevor das nächste beginnt.
 
-## Phase 2 — Iterations-Diskussion
+**Loop je Topic:**
 
-### Block A — Emergenz-Runde (einmalig)
+1. **Entwurf.** Die KI füllt das Topic als Template-Fragment. Jede Aussage trägt einen Tag:
+   - `[abgeleitet: <Quelle>]` — nur mit zitierbarer Quelle aus [[GLOB-Domänenwissen]] oder
+     bestätigtem Nutzer-Input dieser Session.
+   - `[Annahme]` — generischer Prior, keine Firmenbasis.
+   - `[Lücke]` — kein Anhaltspunkt; bewusst offen statt konfabuliert.
+2. **Gapcheck.** Den Entwurf gegen `references/abdeckungs-checkliste.md` prüfen (generisches
+   Rückgrat + relevante Prüfebenen). Nicht adressierte Punkte als `[Lücke]` ergänzen.
+3. **Vorlage an Nutzer.** Nur die `[Annahme]`- und `[Lücke]`-Punkte als kurze nummerierte
+   Liste. Abgeleitetes nur auf Nachfrage zeigen.
+4. **Klären.** Nutzer beantwortet die Liste → Tags auflösen (Annahme/Lücke → bestätigter Fakt
+   oder gestrichen).
+5. **Bestätigungs-Gate.** Jeder Punkt braucht ausdrückliche Zustimmung; Stille, Nicht-
+   Widerspruch oder beiläufiges Lob zählen nicht. Ein bedeutsamer Punkt gilt erst als
+   bestätigt, wenn er einer Challenge (siehe Challenge-Mandat) standgehalten hat — die KI
+   versucht aktiv, die Antwort zu brechen, bevor sie sie annimmt. Unbestätigtes bleibt in
+   „Offene Punkte". **Kein Fortschritt zum nächsten Topic, solange ein Punkt offen ist.**
 
-**Zweck:** Organische Topic-Emergenz — Unbekanntes aufdecken.
+**Tag-Disziplin (hart, auditierbar):** `[abgeleitet]` ist nur erlaubt, wenn die Quelle benannt
+werden kann. Plausibel-klingend genügt nicht — dann ist es `[Annahme]`. Prüfregel: „abgeleitet
+woraus?" Ohne Beleg → Annahme.
 
-- Alle aktivierten KUs beschreiben den Normalfall aus ihrer Rolle — täglich/wöchentlich, was passiert üblicherweise. **Keine Ausnahmen, keine Randszenarien, keine Lückensuche.** Etwas mehr Detail erlaubt — Kontextgrundlage für Block C.
-- **T1: stummer Zuhörer.** Keine Topic-Marker, keine Zwischeneingriffe, keine Architektur-Hinweise. Nur Notizen — T1 führt still eine Topic-Rohlist.
-- **T2: Zuhör-Modus.** Eingriff ausschließlich bei Tech-Stack-Konflikt — eine Frage: „Geht das auch anders?" Alles weitere → S2.
+**Glossar-Disziplin (durchgehend):** kollidierende Begriffe sofort benennen; vage/überladene
+Begriffe kanonisch präzisieren und bestätigen lassen; Begriffsgrenzen mit Edge-Case-Szenarien
+schärfen. Neuer Begriff: inline definieren, GLOSSAR-Update in Phase 3.
 
----
+## Phase 3 — Propagation (nur Bestätigtes)
 
-### Block B — T1-Triage (nach Emergenz-Runde)
+Shared-Entity-Pflicht: Alle Entitäten gegen [[GLOB-Modul-Uebersicht]] §Shared Entities prüfen.
+Registriert → Owner-BC übernehmen. Nicht registriert → mit Owner-BC ergänzen. Offener
+Owner-BC = Blocker — kein Vault-Update, bis geklärt.
 
-**Zweck:** Priorisierte Topic-Queue erstellen — Grundlage für Block C.
+Sequenz fix:
 
-T1 erstellt direkt im Anschluss an Block A die Topic-Queue. Ausgabe-Format:
-
-```
-Topic-Queue:
-1. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
-2. [Topic-Name] — Grund: [ein Satz] — KUs: [Kürzel]
-...
-
-**Priorisierungskriterien — Reihenfolge verbindlich:**
-
-| Priorität | Kriterium | Leitfrage |
-|---|---|---|
-| 1 | Abhängigkeit | Blockiert dieses Topic andere Topics? |
-| 2 | Konzept-Fundament | Definiert es Basis-Begriffe die andere Topics voraussetzen? |
-| 3 | Cross-Module-Impact | Berührt es mehrere Module? |
-| 4 | Reversibilität | Ist die Entscheidung schwer rückgängig zu machen? |
-| 5 | KU-Batching | Topics mit gleichen KUs gruppieren (Effizienz — kein Inhaltskriterium) |
-
----
-
-### Block C — Fokus-Sprints
-
-**Ziel:** Vollwertige Iterationsrunden pro Topic vollständig abschließen bevor das nächste beginnt.
-
-**Pro Sprint:**
-- Nur die in der Queue benannten KUs blicken auf die Problemstellung, jeder aus seinem Blickwinkel
--Challenge against the glossary - When the user uses a term that conflicts with the existing language, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
--When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account' — do you mean the Customer or the User? Those are different things."
--When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that probe edge cases and force the user to be precise about the boundaries between concepts.
-
-Workflow:
-- Standardworkflow beschreiben - bei Fragen mehrere Iteartonsrunden mit dem KUs und Nutzer 
-- Erarbeite 3 konkrete Lösungvorschläge nach Pareto Prinzip 20% Aufwand = 80% Leistung - wie dies in AXIS abgebildet werden kann.
-- Wichtig ist die Einhaltung der in K1-K8 genannten Kriterien
-- Prüfen gegen die Krieterien aus Sprint-K-Check
-- Sofern Sprint Check bestanden - nächstes Topic
-
-**Sprint-K-Check (vor Sprint-Abschluss — Pflicht):**
-T1 prüft nach der letzten Runde. Fehlende Antwort → Nachfrage, Sprint bleibt offen:
-- K1/K8: Alle Zustände und erlaubten Übergänge benannt (`Zustand → Zustand`, keine Auslöser/Bedingungen)? Oder explizit: keine Status-Entität?
-- K2: Entität klar von verwandten Domänen-Objekten abgegrenzt?
-- K3: Kein offener Blocker mit Datenmodell-Relevanz? Alle berührten Shared Entities mit Owner-BC in [[GLOB-Modul-Uebersicht]] §Shared Entities eingetragen?
-- K6: Mindestens ein Ausnahmepfad identifiziert — oder explizit als keiner bestätigt?
-- K7: Alle Nicht-Status-Regeln als Tabelle `ID · Wenn · Dann`? Regel-IDs vergeben?
-
-**Allgemeine Regeln:**
-- Topic = ein Punkt der eine Nutzer-Entscheidung erfordert.
-- Neuer Glossar-Begriff: Definition inline setzen, damit weiterarbeiten — GLOSSAR-Update in Phase 5.
-
-Ziel von Phase 2: -Prozessdefinition von jedem Topic lückenlos abschließen
-
-## Phase 3 — Propagations-Phase (Vault-Update)
-
-**Shared-Entity-Pflicht:** Alle Entitäten dieses Sub-Moduls gegen [[GLOB-Modul-Uebersicht]] §Shared Entities prüfen. Entität dort registriert → Owner-BC übernehmen. Entität nicht registriert → in §Shared Entities ergänzen mit Owner-BC. Offener Owner-BC = Blocker — kein Vault-Update bevor Owner-BC geklärt ist.
-
-Sequenz fix — Reihenfolge nicht variieren:
-
-1. **GLOSSAR.md** — neue Begriffe AM ENDE anhängen (nie alphabetisch einfügen). Workflow → [[CLAUDE]]
+1. **GLOSSAR.md** — neue Begriffe ans Ende anhängen (nie alphabetisch). Workflow → [[CLAUDE]]
 2. **GLOSSAR-Index.md** — Term + Zeilennummer ergänzen
-3. **Primär-Doku** — Modul- oder Sub-Modul-Überdatei aktualisieren. Bei `type: submodul-uebersicht` muss zwingend folgende Struktur angewendet werden:
- ## SUBMODUL-UEBERSICHT-BEFÜLLUNG
-
-Gegen VORLAGE: `_Vorlagen/Submodul-Uebersicht-Template.md` prüfen - noch nicht enthaltene Abschnitte müssen zwingend ergänzt werden.
-
-### Grundregeln
-
-- **Frontmatter `status`**: immer `entwurf` bei Erstanlage
-- **Frontmatter `summary`**: 1 Satz · max 200 Zeichen · fachliche Verantwortung — kein Fließtext
-- **TL;DR**: max 15 Wörter · kein "Dieses Modul…"-Einstieg
-- **Domänen-Objekte**: nur Objekte die dieses Sub-Modul OWNED · fremde Aggregate nur mit `Owned by [[Wikilink]]`
-- **Status-Übergänge**: Sektion weglassen wenn kein Status-Feld vorhanden
-- **Regeln**: nur aufnehmen wenn nicht trivial aus Status-Übergängen ableitbar
-- **Sonderfälle**: nur echte Prozesszweige — kein Fehlerhandling, keine UI-Varianten
-- **Offene Punkte**: erledigte Punkte sofort entfernen — kein Done-Status
-- **Learnings**: leer lassen bei Erstanlage — Abschnitt trotzdem behalten
-- **Specs**: Sektion weglassen wenn kein Spec-Dokument existiert
-
-4. **Sekundär-Doku** — weitere Modul-Überdateien bei Cross-Module-Impact · [[AXIS-Session-Start]] bei neuer Modul-Navigation
-5. **ADR + ADR-Index.md** — falls Architekturentscheidung getroffen wurde ([[Rulebook_Obsidian]] Abschnitt 3.5)
+3. **Primär-Doku** — Submodul-Übersicht nach `references/submodul-uebersicht.md` befüllen
+4. **Sekundär-Doku** — weitere Modul-Überdateien bei Cross-Module-Impact;
+   [[AXIS-Session-Start]] bei neuer Modul-Navigation
+5. **ADR + ADR-Index.md** — falls Architekturentscheidung ([[Rulebook_Obsidian]] §3.5)
 6. **`/wikilink-check` aufrufen** — Validierungs-Endschritt
 
-## Phase 4 — Learnings-Update (nach jeder Session)
+## Phase 4 — Learnings → GLOB-Domänenwissen
 
-**Auslöser — proaktiv, nicht signal-abhängig:**
-Jede der folgenden Situationen löst automatisch einen Learning-Kandidaten-Check aus — ohne explizites Signal des Nutzers:
-- Nutzer korrigiert eine KU-Aussage (faktisch oder inhaltlich)
-- Nutzer präzisiert eine KU-Aussage mit unternehmensrealem Detail
-- Nutzer widerspricht einer KU-Annahme
-- Nutzer ergänzt einen Prozessschritt den die KU ausgelassen hat
-- T1 oder T2 revidieren eine Einschätzung aufgrund von Nutzer-Input
+Jeder vom Nutzer bestätigte Delta ist ein Learning und wird in [[GLOB-Domänenwissen]]
+zurückgeschrieben — so wird die nächste Hypothese besser und der nächste Entwurf hat weniger
+Annahmen.
 
-**Nicht warten auf:** „wichtiges Learning", explizite Aufforderung, Zusammenfassung am Ende.
-**Stattdessen:** nach jeder Nutzer-Intervention prüfen ob ein Learning-Kandidat vorliegt.
-
-**Prüfsequenz je Learning-Kandidat:**
-
-1. **Kriterien-Check** — mindestens eines muss zutreffen:
-   - Unternehmensspezifische Abweichung vom generischen ERP-Denken
-   - Wiederkehrendes Missverständnis dieser Rolle
-   - Prozessgrenze die in der Realität anders liegt als angenommen
-   - Vom Nutzer explizit bestätigt
-
-2. **Zeichenlimit-Check** — aktueller `## Learnings`-Block der betroffenen KU < 700 Zeichen?
-   - Ja → direkt anhängen
-   - Nein → erst konsolidieren (verwandte Punkte zusammenführen → 2 Punkte werden 1), dann anhängen. Kein Löschen.
-
-3. **Eintragen** — KI-kompakt · keine Füllwörter · max. 120 Zeichen je Eintrag:
-   ```
-   - {KU-Kürzel}: {kompakter Lernpunkt}
-   ```
-   Beispiel: `- A1: Anfrage ≠ Schnellerfassung. Immer Projektpaket · mehrteilig · Laufzeit Wochen–Monate.`
-
-**Schreib-Ziel:** `vault/_Key-User/KU-{Kürzel}-*.md` → Abschnitt `## Learnings`
+Auslöser proaktiv nach jeder Nutzer-Intervention prüfen (Korrektur, Präzisierung, Widerspruch,
+ausgelassener Schritt, explizite Bestätigung eines nicht-trivialen Punkts). Falsch erkanntes
+Wissen **ersetzen, nicht nur ergänzen**. Detail → `references/learnings.md`.
 
 ## Governance & Verbote
 
-Regeln werden verlinkt, nicht dupliziert:
-
 | Verbot | Quelle |
-
+|---|---|
 | Keine stillen Annahmen · Eskalationspflicht bei Geschäftsprozess-/Datenkonflikten | [[CLAUDE]] |
+| Stille gilt nie als Bestätigung · nichts Unbestätigtes als Fakt propagieren | dieser Skill, Phase 2 |
+| `[abgeleitet]` nur mit zitierbarer Quelle · sonst `[Annahme]` | dieser Skill, Phase 2 |
+| Firmenfakt nie als gewusst behaupten — Faktenquelle ist [[GLOB-Domänenwissen]] | dieser Skill, Grundprinzip |
 | `GLOSSAR.md` nie direkt laden | [[CLAUDE]] |
 | Dokumente mit `status: veraltet` nie laden | [[CLAUDE]] |
 | Rulebook-Konformität bei allen Vault-Updates | [[Rulebook_Obsidian]] |

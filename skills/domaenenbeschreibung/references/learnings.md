@@ -1,40 +1,30 @@
-# Learnings-Update — Prüf- und Eintragesequenz
+# Learnings → GLOB-Domänenwissen
 
-Gilt in Phase 4, je Learning-Kandidat.
+In Phase 4: jeder vom Nutzer bestätigte Delta wird in [[GLOB-Domänenwissen]] zurückgeschrieben.
+Ziel: bessere Hypothesen, weniger `[Annahme]` im nächsten Entwurf.
 
-## 1. Kriterien-Check (mindestens eines muss zutreffen)
+## 1. Kandidaten-Check (mindestens eines)
 
 - Unternehmensspezifische Abweichung vom generischen ERP-Denken
-- Wiederkehrendes Missverständnis dieser Rolle
+- Wiederkehrendes Missverständnis / wiederkehrend vergessener Aspekt
 - Prozessgrenze, die real anders liegt als angenommen
 - Vom Nutzer explizit bestätigt
 
-## 2. Zeichenlimit-Check
+## 2. Eintragen
 
-Aktueller `## Learnings`-Block der betroffenen KU < 700 Zeichen?
-
-- **Ja** → direkt anhängen.
-- **Nein** → erst konsolidieren (verwandte Punkte zusammenführen, 2 Punkte → 1), dann anhängen.
-  Nichts löschen.
-
-## 3. Eintragen
-
-KI-kompakt · keine Füllwörter · max. 120 Zeichen je Eintrag:
-
-```
-- {KU-Kürzel}: {kompakter Lernpunkt}
-```
+KI-kompakt · keine Füllwörter · ein Lernpunkt je Zeile. In den thematisch passenden Abschnitt
+von [[GLOB-Domänenwissen]] einordnen (nicht wahllos anhängen).
 
 Beispiel:
-`- A1: Anfrage ≠ Schnellerfassung. Immer Projektpaket · mehrteilig · Laufzeit Wochen–Monate.`
+`Projektbeschaffung-Freigabe = Budget-Schwellenfreigabe · PM nur bei Überschreitung · phasen-entkoppelt`
 
-Schreib-Ziel: `vault/_Key-User/KU-{Kürzel}-*.md` → Abschnitt `## Learnings`.
+## 3. Falsches Wissen korrigieren
 
-## 4. Falsches Learning korrigieren
+Ein als falsch erkannter Eintrag wird **ersetzt, nicht nur ergänzt** — sonst stehen
+widersprüchliche Fakten nebeneinander und der Fehler bleibt aktive Hypothesen-Basis.
+Auslöser ist immer eine ausdrückliche Nutzer-Korrektur, nie eine KI-Selbsteinschätzung.
 
-Ein als falsch erkanntes Learning wird **ersetzt, nicht nur ergänzt** — sonst stehen
-widersprüchliche Fakten nebeneinander und der Fehler bleibt als Hypothesen-Basis aktiv.
+## 4. Konsistenz
 
-- Den falschen Eintrag entfernen und durch den korrigierten ersetzen (einzige Ausnahme von
-  „nichts löschen").
-- Auslöser ist immer eine ausdrückliche Nutzer-Korrektur, nie eine KU-Selbsteinschätzung.
+Nach dem Schreiben prüfen, ob der neue Eintrag einem bestehenden widerspricht. Konflikt →
+beim Nutzer auflösen lassen, nicht still überschreiben.
